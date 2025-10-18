@@ -12,7 +12,7 @@ export default function registration() {
             email: e.email,
             password: e.password,
         }
-        await axios.post('http://localhost:1337/api/auth/local/register', data).then((res) => {
+        await axios.post('https://steadfast-champion-6ebdef5bbb.strapiapp.com/api/auth/local/register', data).then((res) => {
             console.log(res.data.jwt)
             toast.success('Successfully registered!')
             navigate('/login')
