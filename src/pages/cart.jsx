@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { SlEnergy } from "react-icons/sl";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { IoPersonSharp } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { RiLayoutTopLine } from "react-icons/ri";
+import Navbar from "../components/navbar";
 export default function CartPage({ product, index, products }) {
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem("cart");
@@ -12,56 +11,51 @@ export default function CartPage({ product, index, products }) {
   const navigate = useNavigate();
   return (
     <>
-      <div className="container mx-auto flex justify-between border-b-[0.5px] border-gray-400 pb-3">
-        <div className="flex ">
-          <h2 className="text-black font-serif font-medium mt-6 text-2xl">
-            VOLT SUPPLY
-          </h2>
-          <SlEnergy className="text-amber-600 size-5 mt-6" />
-        </div>
-        <nav className="flex gap-7 text-black font-sans mt-6 text-lg font-medium mr-27">
-          <a href="./home">HOME</a>
-          <Link to="../about">ABOUT</Link>
-          <Link to="../shop">SHOP</Link>
-          <Link to="../contact">CONTACT</Link>
-        </nav>
-        <div className="flex gap-4 mt-6">
-          <div className="relative">
-            <Link to="../cart">
-              <AiOutlineShoppingCart className="text-black size-6" />
-            </Link>
-            {cart.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
-                {cart.length}
-              </span>
-            )}
-          </div>
-          <IoPersonSharp className="text-black size-6" />
-        </div>
-      </div>
-      <div className="container mx-auto mt-20">
+      <Navbar />
+      <div className="container mx-auto mt-20 px-4">
         <h1 className="text-amber-700 text-4xl font-medium font-mono pb-12 border-b-2 border-black">
           CART
         </h1>
-        <div className="bg-gray-100 py-6">
+        <div className="bg-gray-100 dark:bg-amber-700 py-6">
           <div className=" flex flex-col gap-4 ml-12 pt-4 w-full max-w-6xl mx-auto ">
             {cart.length === 0 ? (
               <div className="flex gap-3">
-                <RiLayoutTopLine className="size-6 text-amber-700" />
+                <RiLayoutTopLine className="size-6 text-amber-700 dark:text-white" />
                 <p className="text-[17px]">Your cart is currently empty.</p>
               </div>
             ) : (
               cart.map((product, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-lg shadow-md p-4 flex flex-col md:flex-row justify-between items-center"
+                  className="bg-white dark:bg-black rounded-lg shadow-md p-4 flex flex-col md:flex-row justify-between items-center"
                 >
                   <img
                     className="object-contain size-30"
                     src={product.image}
                     alt={product.name}
                   />
-                  <div className="col-6 col-md-9 flex flex-column gap-3 flex-md-row justify-between items-center">
+                  <div className="flex md:flex-row flex-col gap-3 justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <label
+                        htmlFor={`days-${index}`}
+                        className="text-lg text-grey"
+                      >
+                        Days:
+                      </label>
+                      <input
+                        id={`days-${index}`}
+                        type="number"
+                        min="1"
+                        value={product.days || 1}
+                        onChange={(e) => {
+                          const newCart = [...cart];
+                          newCart[index].days = parseInt(e.target.value) || 1;
+                          setCart(newCart);
+                          localStorage.setItem("cart", JSON.stringify(newCart));
+                        }}
+                        className="w-13 px-2 py-1 border rounded text-center bg-white dark:bg-black text-black dark:text-white"
+                      />
+                    </div>
                     <p className="m-0 fw-bold">{product.name}</p>
                     <div className="item-qty flex items-center gap-3">
                       <button
@@ -116,7 +110,7 @@ export default function CartPage({ product, index, products }) {
                     <div className="col-12 col-md-3 flex justify-md-between justify-center gap-4 gap-md-0 items-center">
                       <div className="item-price flex items-center">
                         <h5 className="text-grey m-0">
-                          {product.price * product.qty} $
+                          {product.price * product.qty} EGP
                         </h5>
                       </div>
                       <button
@@ -154,15 +148,10 @@ export default function CartPage({ product, index, products }) {
           RETURN TO SHOP
         </button>
       </div>
-      <footer className="container mx-auto flex justify-between mb-5 mt-11 border-t-[0.5px] border-gray-400 pt-5">
-        <nav className="flex gap-3 text-sm">
-          <a href="./home">HOME</a>
-          <Link to="../about">ABOUT</Link>
-          <Link to="../shop">SHOP</Link>
-          <Link to="../contact">CONTACT</Link>
-        </nav>
-        <h2 className="font-bold font-serif text-lg flex">
-          VOLT SUPPLY STORE <SlEnergy className="text-amber-600 size-5" />
+      <footer className="container mx-auto flex justify-between mb-5 mt-11 border-t-[0.5px] border-gray-400 pt-5 px-4">
+        <h2 className="font-bold font-serif text-lg flex gap-1">
+          VOLT SUPPLY STORE
+          <SlEnergy className="text-amber-600 size-5" />
         </h2>
         <p>Copyright © 2025</p>
       </footer>

@@ -1,40 +1,51 @@
-import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
 export default function login() {
   const navigate = useNavigate();
-  const handleSubmit = async (e) => {
-    console.log(e);
-    let data = {
-      identifier: e.email,
-      password: e.password,
-    };
-    await axios
-      .post("https://steadfast-champion-6ebdef5bbb.strapiapp.com/api/auth/local", data)
-      .then((res) => {
-        console.log(res.data.jwt);
-        localStorage.setItem("userToken", res.data.jwt);
-        toast.success("You’ve successfully logged in!");
-      navigate("/home");
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Invalid email or password.");
-      });
-  };
   const validationSchema = yup.object({
-    email: yup.string().email("Invalid email format").required("Required"),
-    password: yup.string().min(6, "Minimum 6 characters").required("Required"),
+    email: yup
+      .string()
+      .required("Required")
+      .test("is-valid", "Enter a valid email or phone number", (value) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[0-9]{10,15}$/;
+        return emailRegex.test(value) || phoneRegex.test(value);
+      }),
+    password: yup.string().required("Required"),
   });
+
+  const handleLogin = (values, { resetForm }) => {
+    const { email, password } = values;
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const foundUser = users.find(
+      (u) => (u.email === email || u.phone === email) && u.password === password
+    );
+
+    if (foundUser) {
+      localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+      Swal.fire({
+        title: `Welcome back, ${foundUser.username}!`,
+        icon: "success",
+        draggable: true,
+      });
+      resetForm();
+      navigate("/");
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid email/phone or password",
+      });
+    }
+  };
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
-      onSubmit={(e) => {
-        handleSubmit(e);
-      }}
-      validationSchema={validationSchema}
+      onSubmit={handleLogin}
+      dationSchema={validationSchema}
     >
       <Form className="container mx-auto flex flex-col gap-4 items-center mt-20">
         <h2 className="font-black text-2xl font-serif">
@@ -67,8 +78,8 @@ export default function login() {
           Log In
         </button>
         <div className="flex gap-2">
-          <p className="text-gray-500 font-light">Don’t have an account? </p>{" "}
-          <a href="/registration" className="text-[#00B4D8] font-light">
+          <p className="text-gray-500 font-light">Don’t have an account? </p>
+          <a href="/register" className="text-[#00B4D8] font-light">
             Create one
           </a>
         </div>

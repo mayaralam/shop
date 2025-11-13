@@ -1,14 +1,13 @@
 import header from "../assets/header.png";
 import { SlEnergy } from "react-icons/sl";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { IoPersonSharp } from "react-icons/io5";
-import offer from "../assets/offer.png";
-import washer from "../assets/washer.webp";
-import fridge from "../assets/fridge.jpg";
+import offer from "../assets/offer.jpg";
+import pic1 from "../assets/pic1.jpg";
+import pic3 from "../assets/pic3.jpg";
 import logo from "../assets/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import Navbar from "../components/navbar";
 export default function home() {
   const navigate = useNavigate();
   const [cart, setCart] = useState(
@@ -16,20 +15,20 @@ export default function home() {
   );
   const [products, setProducts] = useState([
     {
-      name: "Haier 4 doors refrigerator (bottom freezer) - No frost ",
+      name: "Amartisan 4-Piece Magnetic Screwdrivers Set",
       price: 300,
-      image: fridge,
+      image: pic1,
     },
     {
       name: "Upgrade Your Home Lifestyle with Our Exclusive Offers",
-      price: 800,
+      price: 500,
       discount: "30%",
       image: offer,
     },
     {
-      name: "Midea - Washing Machine - Inverter - Steam -1400Rpm ",
+      name: "Hi-Spec Electric Screwdriver 27pc 3.6V USB Small Power Screwdriver Set",
       price: 200,
-      image: washer,
+      image: pic3,
     },
   ]);
   const addtocart = (productIndex) => {
@@ -62,38 +61,12 @@ export default function home() {
   return (
     <>
       <Toaster />
+      <Navbar />
       <div
         className="h-screen bg-cover bg-center"
         style={{ backgroundImage: `url(${header})` }}
       >
-        <div className="container mx-auto flex justify-between">
-          <div className="flex ">
-            <h2 className="text-white font-serif font-medium mt-6 text-2xl">
-              VOLT SUPPLY
-            </h2>
-            <SlEnergy className="text-amber-600 size-5 mt-6" />
-          </div>
-          <nav className="flex gap-7 text-white font-sans mt-6 text-lg font-medium ">
-            <a href="./home">HOME</a>
-            <Link to="../about">ABOUT</Link>
-            <Link to="../shop">SHOP</Link>
-            <Link to="../contact">CONTACT</Link>
-          </nav>
-          <div className="flex gap-4 mt-6">
-            <div className="relative">
-              <Link to="../cart">
-                <AiOutlineShoppingCart className="text-white size-6" />
-              </Link>
-              {cart.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  {cart.length}
-                </span>
-              )}
-            </div>
-            <IoPersonSharp className="text-white size-6" />
-          </div>
-        </div>
-        <div className="container text-center mx-auto pt-48">
+        <div className="container text-center mx-auto pt-60">
           <h1 className="font-sans text-4xl text-white mb-3 animate__animated animate__zoomIn">
             POWER YOUR PROJECTS
           </h1>
@@ -108,7 +81,7 @@ export default function home() {
           </button>
         </div>
       </div>
-      <div className="container mx-auto grid grid-cols-3 gap-2 my-12 animate__animated animate__fadeInDown">
+      <div className="container mx-auto grid md:grid-cols-3 sm:grid-cols-1 gap-2 my-12 animate__animated animate__fadeInDown px-4">
         {products.map((product, index) => {
           return (
             <div
@@ -122,12 +95,14 @@ export default function home() {
                 <img
                   src={product.image}
                   alt="product_image"
-                  className="h-64 w-full object-contain mb-2"
+                  className="h-64 w-full object-contain mb-2 bg-white"
                 />
               </figure>
-              <div className="card-body bg-gray-100 ">
-                <h2 className="card-title">{product.name}</h2>
-                <p className="font-bold text-black text-lg">{product.price}$</p>
+              <div className="card-body bg-gray-100 dark:bg-gray-200 ">
+                <h2 className="card-title text-black">{product.name}</h2>
+                <p className="font-bold text-black text-lg">
+                  Daily rent: {product.price} EGP
+                </p>
                 {product.discount && (
                   <p className="text-red-700 font-bold text-[17px]">
                     Discount: {product.discount}
@@ -148,19 +123,16 @@ export default function home() {
           );
         })}
       </div>
-      <div
-        className="container mx-auto h-screen bg-cover bg-center"
-        style={{ backgroundImage: `url(${logo})` }}
-      ></div>
-      <footer className="container mx-auto flex justify-between mb-5 mt-5">
-        <nav className="flex gap-3 text-sm">
-          <a href="./home">HOME</a>
-          <Link to="../about">ABOUT</Link>
-          <Link to="../shop">SHOP</Link>
-          <Link to="../contact">CONTACT</Link>
-        </nav>
-        <h2 className="font-bold font-serif text-lg flex">
-          VOLT SUPPLY STORE <SlEnergy className="text-amber-600 size-5" />
+      <div className="container mx-auto px-4 flex items-center justify-center mb-5">
+        <img
+          src={logo}
+          className="mt-5 max-h-[100dvh] rounded-3xl"
+        />
+      </div>
+      <footer className="container mx-auto flex justify-between mb-5 mt-11 border-t-[0.5px] border-gray-400 pt-5 px-4">
+        <h2 className="font-bold font-serif text-lg flex gap-1">
+          VOLT SUPPLY STORE 
+          <SlEnergy className="text-amber-600 size-5" />
         </h2>
         <p>Copyright © 2025</p>
       </footer>

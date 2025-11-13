@@ -1,7 +1,5 @@
 import { SlEnergy } from "react-icons/sl";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { IoPersonSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import Navbar from "../components/navbar";
 import { useState } from "react";
 import bcg from "../assets/bcg.jpeg";
 import Swal from "sweetalert2";
@@ -41,40 +39,14 @@ export default function contact() {
         className="h-screen bg-cover bg-center"
         style={{ backgroundImage: `url(${bcg})` }}
       >
-        <div className="container mx-auto flex justify-between">
-          <div className="flex ">
-            <h2 className="text-blaclk font-serif font-medium mt-6 text-2xl">
-              VOLT SUPPLY
-            </h2>
-            <SlEnergy className="text-amber-600 size-5 mt-6" />
-          </div>
-          <nav className="flex gap-7 text-black font-sans mt-6 text-lg font-medium mr-27">
-            <a href="./home">HOME</a>
-            <a href="../about">ABOUT</a>
-            <Link to="../shop">SHOP</Link>
-            <Link to="../contact">CONTACT</Link>
-          </nav>
-          <div className="flex gap-4 mt-6">
-            <div className="relative">
-              <Link to="../cart">
-                <AiOutlineShoppingCart className="text-black size-6" />
-              </Link>
-              {cart.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-black text-xs font-bold px-2 py-1 rounded-full">
-                  {cart.length}
-                </span>
-              )}
-            </div>
-            <IoPersonSharp className="text-black size-6" />
-          </div>
-        </div>
+      <Navbar />
         <div className="container mx-auto pt-48 flex items-center justify-center">
           <h1 className="font-sans text-6xl text-white mb-3 text-center text-shadow-lg/70 animate__animated animate__jackInTheBox ">
             CONTACT US
           </h1>
         </div>
       </div>
-      <div className="container mx-auto grid grid-cols-2">
+      <div className="container mx-auto grid md:grid-cols-2 sm:grid-cols-1 px-4">
         <div>
           <h2 className="text-3xl font-semibold mt-10">
             Got a complaint? Send it here.
@@ -149,15 +121,10 @@ export default function contact() {
           </div>
         </div>
       </div>
-      <footer className="container mx-auto flex justify-between mb-5 mt-11 border-t-[0.5px] border-gray-400 pt-5">
-        <nav className="flex gap-3 text-sm">
-          <a href="./home">HOME</a>
-          <Link to="../about">ABOUT</Link>
-          <Link to="../shop">SHOP</Link>
-          <Link to="../contact">CONTACT</Link>
-        </nav>
-        <h2 className="font-bold font-serif text-lg flex">
-          VOLT SUPPLY STORE <SlEnergy className="text-amber-600 size-5" />
+        <footer className="container mx-auto flex justify-between mb-5 mt-11 border-t-[0.5px] border-gray-400 pt-5 px-4">
+        <h2 className="font-bold font-serif text-lg flex gap-1">
+          VOLT SUPPLY STORE 
+          <SlEnergy className="text-amber-600 size-5" />
         </h2>
         <p>Copyright © 2025</p>
       </footer>

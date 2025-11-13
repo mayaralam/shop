@@ -1,34 +1,38 @@
-import axios from "axios"
-import { ErrorMessage, Field, Form, Formik } from "formik"
-import * as yup from 'yup'
-import { useNavigate } from "react-router-dom"
-import { toast } from "react-hot-toast";
-export default function registration() {
-    const navigate=useNavigate();
-    const handleSubmit= async (e)=>{
-        console.log(e)
-        let data = {
-            username: e.username,
-            email: e.email,
-            password: e.password,
-        }
-        await axios.post('https://steadfast-champion-6ebdef5bbb.strapiapp.com/api/auth/local/register', data).then((res) => {
-            console.log(res.data.jwt)
-            toast.success('Successfully registered!')
-            navigate('/login')
-        }).catch((err) => {
-            console.log(err)
-             toast.error('Registration failed. Please try again.')
-        })
-    }
-    const validationSchema=yup.object({
-        email:yup.string().email('Invalid email format').required('Required'),
-        password:yup.string().min(6,'Minimum 6 characters').required('Required'),
-        username:yup.string().min(3,'Minimum 3 characters').required('Required'),
-        phone:yup.string().min(10,'Minimum 10 numbers').required('Required')
-    })
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as yup from "yup";
+import Swal from "sweetalert2";
+import {useNavigate } from "react-router-dom";
+export default function Register() {
+    const navigate = useNavigate();
+  const validationSchema = yup.object({
+    email: yup.string().email("Invalid email format").required("Required"),
+    password: yup.string().min(6, "Minimum 6 characters").required("Required"),
+    username: yup.string().min(3, "Minimum 3 characters").required("Required"),
+    phone: yup
+      .string()
+      .matches(/^[0-9]{10,15}$/, "Enter a valid phone number")
+      .required("Required"),
+  });
+  const handleSubmit = (values, { resetForm }) => {
+    const newUser = {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+      phone: values.phone,
+    };
+    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+    existingUsers.push(newUser);
+    localStorage.setItem("users", JSON.stringify(existingUsers));
+    Swal.fire({
+      title: "Registration successful!",
+      icon: "success",
+      draggable: true,
+    });
+    resetForm();
+    navigate("/login")
+  };
   return (
-<Formik initialValues={{email:'',password:'', username:'',phone:''}} onSubmit={(e)=>{handleSubmit(e)}}  validationSchema={validationSchema}>
+<Formik initialValues={{email:'',password:'', username:'',phone:''}} onSubmit={handleSubmit}  validationSchema={validationSchema}>
    
     <Form className="container mx-auto flex flex-col gap-4 items-center mt-20">
         <h2 className="font-black text-2xl font-serif" >Create Account<span className="text-[#00B4D8]">.</span></h2>
