@@ -3,7 +3,7 @@ import { useState } from "react";
 import bcg from "../assets/bcg.jpeg";
 import our from "../assets/our.jpeg";
 import 'animate.css';
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 export default function about() {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []

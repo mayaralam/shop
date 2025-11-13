@@ -7,7 +7,7 @@ import logo from "../assets/logo.png";
 import {useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 export default function home() {
   const navigate = useNavigate();
   const [cart, setCart] = useState(

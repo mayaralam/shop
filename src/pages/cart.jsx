@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SlEnergy } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 import { RiLayoutTopLine } from "react-icons/ri";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 export default function CartPage({ product, index, products }) {
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem("cart");

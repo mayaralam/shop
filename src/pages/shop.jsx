@@ -10,7 +10,7 @@ import photo8 from "../assets/photo8.jpg";
 import photo9 from "../assets/photo9.jpg";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 export default function shop() {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []

@@ -1,5 +1,5 @@
 import { SlEnergy } from "react-icons/sl";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 import { useState } from "react";
 import bcg from "../assets/bcg.jpeg";
 import Swal from "sweetalert2";
